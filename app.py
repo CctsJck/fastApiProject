@@ -1,4 +1,5 @@
 import os
+import requests
 from os import remove
 from os import path
 from fer import Video
@@ -40,12 +41,12 @@ def eliminar(fileName:str):
 
 def dataAnalysis():
     df = pd.read_csv('data.csv', header=0)
-    data = {"angry":df['angry0'].mean()*100,
-            "disgust":df['disgust0'].mean() * 100,
-            "fear":df['fear0'].mean() * 100,
-            "happy":df['happy0'].mean() * 100,
-            "neutra":df['neutral0'].mean() * 100,
-            "sad":df['sad0'].mean() * 100,
-            "surprise":df['surprise0'].mean() * 100}
+    data = {"angry": round(df['angry0'].mean() * 100, 2),
+            "disgust": round(df['disgust0'].mean() * 100, 2),
+            "fear": round(df['fear0'].mean() * 100, 2),
+            "happy": round(df['happy0'].mean() * 100, 2),
+            "neutra": round(df['neutral0'].mean() * 100, 2),
+            "sad": round(df['sad0'].mean() * 100, 2),
+            "surprise": round(df['surprise0'].mean() * 100, 2)}
     return data
 
