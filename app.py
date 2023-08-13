@@ -17,6 +17,7 @@ async def create_upload_file(file: UploadFile):
         fer(file.filename)
         emotions = dataAnalysis()
     eliminar(file.filename)
+    print(emotions)
     return emotions
 
 def fer(video:str):
@@ -45,8 +46,7 @@ def dataAnalysis():
             "disgust": round(df['disgust0'].mean() * 100, 2),
             "fear": round(df['fear0'].mean() * 100, 2),
             "happy": round(df['happy0'].mean() * 100, 2),
-            "neutra": round(df['neutral0'].mean() * 100, 2),
+            "neutral": round(df['neutral0'].mean() * 100, 2),
             "sad": round(df['sad0'].mean() * 100, 2),
             "surprise": round(df['surprise0'].mean() * 100, 2)}
     return data
-
