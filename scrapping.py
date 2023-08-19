@@ -1,13 +1,11 @@
-from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
+from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LTPage, LTChar, LTAnno, LAParams, LTTextBox, LTTextLine
-import numpy as np
 import pandas as pd
-from pprint import pprint
 from pdfminer.pdfpage import PDFPage
-from decimal import Decimal
+
 
 
 class PDFPageDetailedAggregator(PDFPageAggregator):
@@ -39,7 +37,7 @@ class PDFPageDetailedAggregator(PDFPageAggregator):
 
 
 
-fp = open('./Profile.pdf', 'rb')
+fp = open('./Profile_1_.pdf', 'rb')
 parser = PDFParser(fp)
 doc = PDFDocument(parser)
 
@@ -257,5 +255,5 @@ for index, row in df_cert.iterrows():
 arr_cert
 
 print("Este es el array con el json de certificaciones:")
-print(arr_cert[0].get('certifications'))
+print(arr_cert)
 
