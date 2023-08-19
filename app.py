@@ -213,8 +213,13 @@ def scrapping(pdf:str):
 
     arr
 
-    print("Este es el array con el json de experiencia:")
-    print(arr)
+    resultadodicc = {}
+
+    if len(arr) == 0:
+        resultadodicc['experiencia'] = []
+    else:
+        resultadodicc['experiencia'] = arr
+
 
     i = - 1
 
@@ -254,15 +259,42 @@ def scrapping(pdf:str):
     i = - 1
 
     arr_co = []
-
+    banderaMail = False
+    banderaLink = False
     for index, row in df_co.iterrows():
-
         if row['y_dif'] == 18:
             arr_co.append({})
 
         if row['y_dif'] == 15:
-            t = arr_co[-1]['contact'] if ('contact' in arr_co[-1]) else []
-            arr_co[-1]['contact'] = t + [row['line']]
+            if 'contact' in arr_co[-1]:
+                contact_list = arr_co[-1]['contact']
+            else:
+                contact_list = []
+
+            if "@" in row['line'] and (row['line'][-4:] != ".com" or row['line'][-3:] != ".ar"):
+                auxMail = row['line']
+                banderaMail = True
+            elif banderaMail and banderaLink == False:
+                auxMail = auxMail + row['line']
+                contact_list.append(auxMail)
+                arr_co[-1]['contact'] = contact_list
+                auxMail = ""
+                banderaMail = False
+            elif "www" in row['line']:
+                auxLink = row['line']
+                banderaLink = True
+            elif banderaLink and row['line'][-10:] != "(LinkedIn)":
+                auxLink = auxLink + row['line']
+            elif banderaLink and row['line'][-10:] == "(LinkedIn)":
+                auxLink = auxLink + row['line']
+                contact_list.append(auxLink)
+                arr_co[-1]['contact'] = contact_list
+                auxLink = ""
+                banderaLink = False
+            else:
+                contact_list.append(row['line'])
+                arr_co[-1]['contact'] = contact_list
+
     i = - 1
 
     print("Este es el array con el json de contacto:")
@@ -310,42 +342,34 @@ def scrapping(pdf:str):
             arr_cert[-1]['certifications'] = t + [row['line']]
 
     arr_cert
-    print("Este es el array con el json de certificaciones:")
-    print(arr_cert)
-    resultadodicc = {}
-    aux = {}
-    if len(arr) == 0:
-        aux['company'] = ''
-        aux['experience'] = ''
-    else:
-        resultadodicc.update(arr[0])
+
 
     if len(arr_ed) == 0:
-        aux['institute'] = ''
-        aux['experience'] = ''
+        resultadodicc['educacion'] = []
     else:
-        resultadodicc.update(arr_ed[0])
+        resultadodicc['educacion'] = arr_ed
 
     if len(arr_co) == 0:
-        aux['contact'] = ''
+        resultadodicc['contacto'] = []
     else:
-        resultadodicc.update(arr_co[0])
+        resultadodicc['contacto'] = arr_co
 
     if len(arr_sk) == 0:
-        aux['skilss'] = ''
+        resultadodicc['habilidades'] = []
     else:
-        resultadodicc.update(arr_sk[0])
+        resultadodicc['habilidades'] = arr_sk
 
     if len(arr_la) == 0:
-        aux['languages'] = ''
+        resultadodicc['idiomas'] = []
     else:
-        resultadodicc.update(arr_cert[0])
+        resultadodicc['idiomas'] = arr_la
 
     if len(arr_cert) == 0:
-        aux['certifications'] = ''
+        resultadodicc['certificaciones'] = []
     else:
-        resultadodicc.update(arr_cert[0])
+        resultadodicc['certificaciones'] = arr_cert
 
+    fp.close()
     return resultadodicc
 
 

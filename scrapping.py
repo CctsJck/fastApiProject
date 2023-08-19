@@ -5,9 +5,6 @@ from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LTPage, LTChar, LTAnno, LAParams, LTTextBox, LTTextLine
 import pandas as pd
 from pdfminer.pdfpage import PDFPage
-
-
-
 class PDFPageDetailedAggregator(PDFPageAggregator):
     def __init__(self, rsrcmgr, pageno=1, laparams=None):
         PDFPageAggregator.__init__(self, rsrcmgr, pageno=pageno, laparams=laparams)
@@ -37,7 +34,7 @@ class PDFPageDetailedAggregator(PDFPageAggregator):
 
 
 
-fp = open('./Profile_1_.pdf', 'rb')
+fp = open('./Profile_1.pdf', 'rb')
 parser = PDFParser(fp)
 doc = PDFDocument(parser)
 
@@ -159,6 +156,8 @@ arr
 print("Este es el array con el json de experiencia:")
 print(arr)
 
+
+
 i = - 1
 
 arr_ed = []
@@ -197,15 +196,42 @@ df_cert = df_0[df_0['Title'] == 'Certifications'].copy()
 i = - 1
 
 arr_co = []
-
+banderaMail=False
+banderaLink=False
 for index, row in df_co.iterrows():
-
     if row['y_dif'] == 18:
         arr_co.append({})
 
     if row['y_dif'] == 15:
-        t = arr_co[-1]['contact'] if ('contact' in arr_co[-1]) else []
-        arr_co[-1]['contact'] = t + [row['line']]
+        if 'contact' in arr_co[-1]:
+            contact_list = arr_co[-1]['contact']
+        else:
+            contact_list = []
+
+        if "@" in row['line'] and (row['line'][-4:]!=".com" or row['line'][-3:]!=".ar"):
+            auxMail = row['line']
+            banderaMail = True
+        elif banderaMail and banderaLink==False:
+            auxMail=auxMail+row['line']
+            contact_list.append(auxMail)
+            arr_co[-1]['contact'] = contact_list
+            auxMail=""
+            banderaMail=False
+        elif "www" in row['line']:
+            auxLink = row['line']
+            banderaLink = True
+        elif banderaLink and row['line'][-10:] != "(LinkedIn)":
+            auxLink = auxLink + row['line']
+        elif banderaLink and row['line'][-10:] == "(LinkedIn)":
+            auxLink = auxLink + row['line']
+            contact_list.append(auxLink)
+            arr_co[-1]['contact'] = contact_list
+            auxLink = ""
+            banderaLink = False
+        else:
+            contact_list.append(row['line'])
+            arr_co[-1]['contact'] = contact_list
+
 i = - 1
 
 print("Este es el array con el json de contacto:")
@@ -252,7 +278,6 @@ for index, row in df_cert.iterrows():
         t = arr_cert[-1]['certifications'] if ('certifications' in arr_cert[-1]) else []
         arr_cert[-1]['certifications'] = t + [row['line']]
 
-arr_cert
 
 print("Este es el array con el json de certificaciones:")
 print(arr_cert)
