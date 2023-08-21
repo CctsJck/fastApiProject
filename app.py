@@ -53,7 +53,6 @@ async def create_upload_pdf_file(file: UploadFile):
     return cv
 
 
-
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile):
     with open(file.filename, "wb") as myfile:
