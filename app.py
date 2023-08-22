@@ -1,5 +1,7 @@
 import os
 import requests
+from typing import List
+from pydantic import BaseModel
 from os import remove
 from os import path
 from fer import Video
@@ -13,14 +15,15 @@ from pdfminer.layout import LTPage, LTChar, LTAnno, LAParams, LTTextBox, LTTextL
 import pandas as pd
 from pdfminer.pdfpage import PDFPage
 
-
 app = FastAPI()
+
 
 class PDFPageDetailedAggregator(PDFPageAggregator):
     def __init__(self, rsrcmgr, pageno=1, laparams=None):
         PDFPageAggregator.__init__(self, rsrcmgr, pageno=pageno, laparams=laparams)
         self.rows = []
         self.page_number = 0
+
     def receive_layout(self, ltpage):
         def render(item, page_number):
             if isinstance(item, LTPage) or isinstance(item, LTTextBox):
@@ -33,15 +36,18 @@ class PDFPageDetailedAggregator(PDFPageAggregator):
                         child_str += child.get_text()
                 child_str = ' '.join(child_str.split()).strip()
                 if child_str:
-                    row = [page_number, item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3], child_str] # bbox == (x1, y1, x2, y2)
+                    row = [page_number, item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3],
+                           child_str]  # bbox == (x1, y1, x2, y2)
                     self.rows.append(row)
                 for child in item:
                     render(child, page_number)
             return
+
         render(ltpage, self.page_number)
         self.page_number += 1
-        self.rows = sorted(self.rows, key = lambda x: (x[0], -x[2]))
+        self.rows = sorted(self.rows, key=lambda x: (x[0], -x[2]))
         self.result = ltpage
+
 
 @app.post("/uploadpdffile")
 async def create_upload_pdf_file(file: UploadFile):
@@ -64,13 +70,64 @@ async def create_upload_file(file: UploadFile):
     print(emotions)
     return emotions
 
-def fer(video:str):
+
+class Result(BaseModel):
+    angry: float
+    disgusted: float
+    fearful: float
+    happy: float
+    neutral: float
+    sad: float
+    surprised: float
+
+
+##class ResultList(BaseModel):
+#  data: List[Result]
+
+@app.post("/uploadResult")
+async def create_upload_result(data: list[Result]):
+    resultado = calculo(data)
+
+    return resultado
+
+
+def fer(video: str):
     video = Video(video)
     detector = FER(mtcnn=True)
     raw_data = video.analyze(detector, display=True)
     df = video.to_pandas(raw_data)
 
-def eliminar(fileName:str):
+
+def calculo(data: list[Result]):
+    sums = {"angry": 0, "disgusted": 0, "fearful": 0, "happy": 0, "neutral": 0, "sad": 0, "surprised": 0}
+    counts = {"angry": 0, "disgusted": 0, "fearful": 0, "happy": 0, "neutral": 0, "sad": 0, "surprised": 0}
+
+    for result in data:
+        sums["angry"] += result.angry
+        sums["disgusted"] += result.disgusted
+        sums["fearful"] += result.fearful
+        sums["happy"] += result.happy
+        sums["neutral"] += result.neutral
+        sums["sad"] += result.sad
+        sums["surprised"] += result.surprised
+
+        counts["angry"] += 1
+        counts["disgusted"] += 1
+        counts["fearful"] += 1
+        counts["happy"] += 1
+        counts["neutral"] += 1
+        counts["sad"] += 1
+        counts["surprised"] += 1
+
+    averages = {}
+    for emotion in sums:
+        averages[emotion] = sums[emotion] / counts[emotion]
+
+    print(averages)
+    return averages
+
+
+def eliminar(fileName: str):
     directorio_actual = os.getcwd()
     ruta = os.path.join(directorio_actual, "output")
     if path.exists(fileName):
@@ -79,10 +136,11 @@ def eliminar(fileName:str):
         remove("data.csv")
     if path.exists("output\\images.zip"):
         remove("output\\images.zip")
-    if path.exists("output\\"+fileName[:-4]+"_output.mp4"):
-        remove("output\\"+fileName[:-4]+"_output.mp4")
+    if path.exists("output\\" + fileName[:-4] + "_output.mp4"):
+        remove("output\\" + fileName[:-4] + "_output.mp4")
     if path.exists(ruta):
         os.rmdir(ruta)
+
 
 def dataAnalysis():
     df = pd.read_csv('data.csv', header=0)
@@ -95,8 +153,9 @@ def dataAnalysis():
             "surprise": round(df['surprise0'].mean() * 100, 2)}
     return data
 
-def scrapping(pdf:str):
-    path = "./"+pdf
+
+def scrapping(pdf: str):
+    path = "./" + pdf
     fp = open(path, 'rb')
     parser = PDFParser(fp)
     doc = PDFDocument(parser)
@@ -218,7 +277,6 @@ def scrapping(pdf:str):
         resultadodicc['experiencia'] = []
     else:
         resultadodicc['experiencia'] = arr
-
 
     i = - 1
 
@@ -342,7 +400,6 @@ def scrapping(pdf:str):
 
     arr_cert
 
-
     if len(arr_ed) == 0:
         resultadodicc['educacion'] = []
     else:
@@ -370,6 +427,3 @@ def scrapping(pdf:str):
 
     fp.close()
     return resultadodicc
-
-
-
