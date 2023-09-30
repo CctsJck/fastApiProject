@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f672845f-4afe-4c30-8f47-2731df8f3e1f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/fastApiProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fastApiProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="f672845f-4afe-4c30-8f47-2731df8f3e1f" name="Changes" comment="Algorito me video nuevo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
@@ -39,14 +37,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Benjamin/PycharmProjects/fastApiProject",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Benjamin/PycharmProjects/fastApiProject&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Benjamin\PycharmProjects\fastApiProject" />
@@ -63,6 +65,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1689115882052</updated>
+      <workItem from="1693090255883" duration="1100000" />
+      <workItem from="1695479104404" duration="8112000" />
+      <workItem from="1695582709125" duration="1150000" />
+      <workItem from="1695666058346" duration="616000" />
+      <workItem from="1695770162298" duration="624000" />
+      <workItem from="1695929581199" duration="642000" />
+      <workItem from="1695942996380" duration="521000" />
     </task>
     <task id="LOCAL-00001" summary="FER">
       <created>1689898041734</created>
@@ -120,8 +129,19 @@
       <option name="project" value="LOCAL" />
       <updated>1692639532297</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Algorito me video nuevo">
+      <option name="closed" value="true" />
+      <created>1692742827451</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1692742827451</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
@@ -156,7 +176,8 @@
     <MESSAGE value="scrapping" />
     <MESSAGE value="scrappingv1" />
     <MESSAGE value="scrappingv2" />
-    <option name="LAST_COMMIT_MESSAGE" value="scrappingv2" />
+    <MESSAGE value="Algorito me video nuevo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Algorito me video nuevo" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/fastApiProject$app.coverage" NAME="app Coverage Results" MODIFIED="1692653949509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
