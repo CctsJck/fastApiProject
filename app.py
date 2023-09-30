@@ -51,6 +51,7 @@ class PDFPageDetailedAggregator(PDFPageAggregator):
 
 @app.post("/uploadpdffile")
 async def create_upload_pdf_file(file: UploadFile):
+    print(file.filename)
     with open(file.filename, "wb") as myfile:
         myfile.write(await file.read())
         myfile.close()
@@ -59,16 +60,7 @@ async def create_upload_pdf_file(file: UploadFile):
     return cv
 
 
-@app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile):
-    with open(file.filename, "wb") as myfile:
-        myfile.write(await file.read())
-        myfile.close()
-        fer(file.filename)
-        emotions = dataAnalysis()
-    eliminar(file.filename)
-    print(emotions)
-    return emotions
+
 
 
 class Result(BaseModel):
