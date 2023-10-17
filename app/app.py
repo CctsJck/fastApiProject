@@ -1,11 +1,7 @@
 import os
-import requests
-from typing import List
-from pydantic import BaseModel
 from os import remove
 from os import path
-from fer import Video
-from fer import FER
+from pydantic import BaseModel
 from fastapi import FastAPI, UploadFile
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfparser import PDFParser
@@ -83,11 +79,6 @@ async def create_upload_result(data: list[Result]):
     return resultado
 
 
-def fer(video: str):
-    video = Video(video)
-    detector = FER(mtcnn=True)
-    raw_data = video.analyze(detector, display=True)
-    df = video.to_pandas(raw_data)
 
 
 def calculo(data: list[Result]):
@@ -119,31 +110,6 @@ def calculo(data: list[Result]):
     return averages
 
 
-def eliminar(fileName: str):
-    directorio_actual = os.getcwd()
-    ruta = os.path.join(directorio_actual, "output")
-    if path.exists(fileName):
-        remove(fileName)
-    if path.exists("data.csv"):
-        remove("data.csv")
-    if path.exists("output\\images.zip"):
-        remove("output\\images.zip")
-    if path.exists("output\\" + fileName[:-4] + "_output.mp4"):
-        remove("output\\" + fileName[:-4] + "_output.mp4")
-    if path.exists(ruta):
-        os.rmdir(ruta)
-
-
-def dataAnalysis():
-    df = pd.read_csv('data.csv', header=0)
-    data = {"angry": round(df['angry0'].mean() * 100, 2),
-            "disgust": round(df['disgust0'].mean() * 100, 2),
-            "fear": round(df['fear0'].mean() * 100, 2),
-            "happy": round(df['happy0'].mean() * 100, 2),
-            "neutral": round(df['neutral0'].mean() * 100, 2),
-            "sad": round(df['sad0'].mean() * 100, 2),
-            "surprise": round(df['surprise0'].mean() * 100, 2)}
-    return data
 
 
 def scrapping(pdf: str):
@@ -419,3 +385,18 @@ def scrapping(pdf: str):
 
     fp.close()
     return resultadodicc
+
+
+def eliminar(fileName: str):
+    directorio_actual = os.getcwd()
+    ruta = os.path.join(directorio_actual, "output")
+    if path.exists(fileName):
+        remove(fileName)
+    if path.exists("data.csv"):
+        remove("data.csv")
+    if path.exists("output\\images.zip"):
+        remove("output\\images.zip")
+    if path.exists("output\\" + fileName[:-4] + "_output.mp4"):
+        remove("output\\" + fileName[:-4] + "_output.mp4")
+    if path.exists(ruta):
+        os.rmdir(ruta)
