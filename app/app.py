@@ -69,9 +69,6 @@ class Result(BaseModel):
     surprised: float
 
 
-##class ResultList(BaseModel):
-#  data: List[Result]
-
 @app.post("/uploadResult")
 async def create_upload_result(data: list[Result]):
     resultado = calculo(data)
@@ -191,8 +188,8 @@ def scrapping(pdf: str):
 
     df_1
 
-    df_ex = df_1[df_1['Title'] == 'Experience'].copy()
-    df_ed = df_1[df_1['Title'] == 'Education'].copy()
+    df_ex = df_1[df_1['Title'].isin(['Experience', 'Experiencia'])].copy()
+    df_ed = df_1[df_1['Title'].isin(['Education', 'Educación'])].copy()
 
     import re
 
@@ -266,10 +263,10 @@ def scrapping(pdf: str):
 
     df_0
 
-    df_co = df_0[df_0['Title'] == 'Contact'].copy()
-    df_sk = df_0[df_0['Title'] == 'Top Skills'].copy()
-    df_la = df_0[df_0['Title'] == 'Languages'].copy()
-    df_cert = df_0[df_0['Title'] == 'Certifications'].copy()
+    df_co = df_0[df_0['Title'].isin(['Contact', 'Contactar'])].copy()
+    df_sk = df_0[df_0['Title'].isin(['Top Skills', 'Habilidades'])].copy()
+    df_la = df_0[df_0['Title'].isin(['Languages', 'Idiomas'])].copy()
+    df_cert = df_0[df_0['Title'].isin(['Certifications', 'Certificaciones'])].copy()
 
     i = - 1
 
