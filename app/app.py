@@ -264,7 +264,7 @@ def scrapping(pdf: str):
     df_0
 
     df_co = df_0[df_0['Title'].isin(['Contact', 'Contactar'])].copy()
-    df_sk = df_0[df_0['Title'].isin(['Top Skills', 'Habilidades'])].copy()
+    df_sk = df_0[df_0['Title'].isin(['Top Skills','Aptitudes principales', 'Habilidades'])].copy()
     df_la = df_0[df_0['Title'].isin(['Languages', 'Idiomas'])].copy()
     df_cert = df_0[df_0['Title'].isin(['Certifications', 'Certificaciones'])].copy()
 
